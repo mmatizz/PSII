@@ -1,0 +1,6 @@
+c:\users\mateu\onedrive\dokumenty\visual studio 2015\Projects\Perceptron\Perceptron\bin\Debug\Perceptron.exe.config
+c:\users\mateu\onedrive\dokumenty\visual studio 2015\Projects\Perceptron\Perceptron\bin\Debug\Perceptron.exe
+c:\users\mateu\onedrive\dokumenty\visual studio 2015\Projects\Perceptron\Perceptron\bin\Debug\Perceptron.pdb
+c:\users\mateu\onedrive\dokumenty\visual studio 2015\Projects\Perceptron\Perceptron\obj\Debug\Perceptron.csprojResolveAssemblyReference.cache
+c:\users\mateu\onedrive\dokumenty\visual studio 2015\Projects\Perceptron\Perceptron\obj\Debug\Perceptron.exe
+c:\users\mateu\onedrive\dokumenty\visual studio 2015\Projects\Perceptron\Perceptron\obj\Debug\Perceptron.pdb
