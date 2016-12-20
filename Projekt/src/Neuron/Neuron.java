@@ -24,9 +24,23 @@ public class Neuron implements Serializable{
         for(int i=0; i<weights.length; i++){
             weights[i] = rand.nextDouble();
         }
-    }
 
-    public double getOutput(double[] tab, double norm[]){
+//        double r ;
+//        Random random = new Random(System.currentTimeMillis());
+//
+//        int temp = (int)(3.464101615 / (2. * Math.random() ));
+//
+//        for ( int y=0;y<weights.length;y++ ) {
+//                r = (double) random.nextInt(Integer.MAX_VALUE) + (double)
+//                        random.nextInt(Integer.MAX_VALUE) -
+//                        (double) random.nextInt(Integer.MAX_VALUE) - (double)
+//                        random.nextInt(Integer.MAX_VALUE) ;
+//                weights[y] = temp * r ;
+//            }
+        }
+
+
+    public double calcOutput(double[] tab, double norm[]){
         if(tab == null || tab.length != weights.length)
             return 0;
 
@@ -38,6 +52,10 @@ public class Neuron implements Serializable{
 
         output *= norm[0];
 
+        return output;
+    }
+
+    public double getOutput(){
         return output;
     }
 
@@ -78,7 +96,7 @@ public class Neuron implements Serializable{
             length += weights[i]*weights[i];
         }
 
-        return Math.sqrt(length);
+        return length;
     }
 
     double calcInputWeight(double[] inputs){
