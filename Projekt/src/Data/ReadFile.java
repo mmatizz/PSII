@@ -17,9 +17,6 @@ public class ReadFile {
 
     static double[][] tab;
 
-    public ReadFile() {
-
-    }
 
     public void imgReadFromFile(String path) {
         try {

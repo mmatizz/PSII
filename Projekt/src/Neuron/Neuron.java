@@ -19,14 +19,14 @@ public class Neuron implements Serializable{
         learningRate = 0.1;
     }
 
-    void randWeigths(){
+    public void randWeigths(){
         Random rand = new Random();
         for(int i=0; i<weights.length; i++){
             weights[i] = rand.nextDouble();
         }
     }
 
-    double getOutput(double[] tab){
+    public double getOutput(double[] tab, double norm[]){
         if(tab == null || tab.length != weights.length)
             return 0;
 
@@ -36,10 +36,12 @@ public class Neuron implements Serializable{
             output += weights[i]*tab[i];
         }
 
+        output *= norm[0];
+
         return output;
     }
 
-    void normalizeWeights(){
+    public void normalizeWeights(){
         double length = lengthWeights();
         if(length != 0){
             for(int i = 0; i<weights.length; i++){
@@ -48,7 +50,17 @@ public class Neuron implements Serializable{
         }
     }
 
-    void correctWeights(double[] inputs){
+    public static double vectorLength( double v[] )
+    {
+        double rtn = 0.0 ;
+        for ( int i=0;i<v.length;i++ )
+            rtn += v[i] * v[i];
+        return rtn;
+    }
+
+
+
+    public void correctWeights(double[] inputs){
         if(inputs.length != weights.length)
             return;
 
@@ -69,7 +81,19 @@ public class Neuron implements Serializable{
         return Math.sqrt(length);
     }
 
-    double EuclideanDistance(double[] inputs){
+    double calcInputWeight(double[] inputs){
+        if(inputs.length != weights.length)
+            return -1;
+
+        double val = 0;
+        for(int i = 0; i< weights.length; i++){
+            val += weights[i]*inputs[i];
+        }
+
+        return val;
+    }
+
+    public double EuclideanDistance(double[] inputs){
         if(inputs.length != weights.length)
             return -1;
 
@@ -79,5 +103,13 @@ public class Neuron implements Serializable{
         }
 
         return Math.sqrt(distance);
+    }
+
+    public double[] getWeights() {
+        return weights;
+    }
+
+    public void setWeights(double[] weights) {
+        this.weights = weights;
     }
 }
