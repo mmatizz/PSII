@@ -17,11 +17,14 @@
     • przyciski
         - DODAJ - dodawanie litery na listę
         - WYCZYŚĆ - czyszczenie pola do rysowania
+        - ROZPOZNAJ - rozponawanie narysowanej litery
+        - USUŃ - usuwanie litery z listy
+        - TRENUJ - rozpoczęcie uczenia sieci dodanych liter do listy
         
 
 •	Po narysowaniu danej litery w programie dodaje się ją do listy za pomocą przycisku DODAJ
 
-•	Każda litera po dodaniu do listy jest przekształcana do mniejszego rozmiaru pikseli (downsampling)
+•	Każda litera po dodaniu do listy jest przekształcana do mniejszego rozmiaru pikseli (downsampling) o rozmiarze 5*7, gdzie  
 
 •	Po downsamplingu do rozmiaru 35 pikseli, przekształca się je na wektor, który następnie wysyłany jest do metody z nauką sieci
 
