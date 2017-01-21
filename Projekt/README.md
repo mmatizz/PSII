@@ -10,7 +10,15 @@
 ##OPIS:
 •	Program służy do rozpoznywania liter
 
-•	Po narysowaniu danej litery w programie dodaje się ją do listy
+•	Po uruchomieniu programu ukazuje się nam interfejs graficzny, na którym jest:
+    • pole do rysowania
+    • lista, na której wyświetlane są dodane literi
+    • przyciski
+        - DODAJ - dodawanie litery na listę
+        - WYCZYŚĆ - czyszczenie pola do rysowania
+        
+
+•	Po narysowaniu danej litery w programie dodaje się ją do listy za pomocą przycisku DODAJ
 
 •	Każda litera po dodaniu do listy jest przekształcana do mniejszego rozmiaru pikseli (downsampling)
 
