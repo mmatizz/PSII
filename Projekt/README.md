@@ -13,11 +13,8 @@
 •	Po uruchomieniu programu ukazuje się nam interfejs graficzny, na którym jest:
 
     • pole do rysowania
-    
     • lista, na której wyświetlane są dodane literi
-    
     • przyciski
-    
         - DODAJ - dodawanie litery na listę
         - WYCZYŚĆ - czyszczenie pola do rysowania
         
