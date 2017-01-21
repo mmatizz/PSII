@@ -26,6 +26,8 @@ public class KohonenNeuralNetwork {
 
     public double quitError;
 
+    public double[][] outputWeights;
+
     private List<List<Integer>> groups1;
 
     double[][] test1 = {
@@ -52,6 +54,7 @@ public class KohonenNeuralNetwork {
         neurons = new ArrayList<Neuron>();
         groups = new ArrayList<>();
         groups1 = new ArrayList<>();
+        outputWeights = new double[outputNeurons][35];
 
 
     }
@@ -202,34 +205,70 @@ public class KohonenNeuralNetwork {
         for(iter=0; ; iter++){
             calcError(won, bigerr, correc);
 
-
             if ( bigerr[0] < quitError )
                 break;
 
-            if(halt)
-                break;
+
 
             winners=0;
+
             for ( i=0;i<won.length;i++ )
                 if ( won[i]!=0 )
                     winners++;
 
+            if ( (winners < outputNeurons)  &&
+                    (winners < characterSet.getTrainingSetCount()) ) {
+                forceWin ( won );
+                continue;
+            }
             adjustWeights (won , bigcorr, correc ) ;
         }
 
         for(i=0; i<outputNeurons; i++){
             neurons.get(i).normalizeWeights();
         }
-
         halt = true;
+    }
 
+    private void forceWin(int[] won) {
+        int best, which=0;
+        double tmpInputSet[], tmpWeights[], maxOutput, tmpOutput, minOutput;
+        double norm[] = new double[1];
 
+        minOutput = 1.E30;
+        for(int charSet=0; charSet<characterSet.getTrainingSetCount(); charSet++){
+            tmpInputSet = characterSet.getInputSet(charSet);
+            best = winner(tmpInputSet, norm);
+            tmpOutput = neurons.get(best).calcOutput(tmpInputSet, norm);
+            if(tmpOutput < minOutput){
+                minOutput = tmpOutput;
+                which = charSet;
+            }
+        }
+
+        tmpInputSet = characterSet.getInputSet(which);
+        winner(tmpInputSet, norm);
+
+        maxOutput = -1.E30;
+
+        for(int i=outputNeurons-1; i>0; i--){
+            if(won[i] != 0)
+                continue;
+
+            tmpOutput = neurons.get(i).getOutput();
+            if(tmpOutput > maxOutput){
+                maxOutput = tmpOutput;
+                which = i;
+            }
+        }
+        tmpWeights = neurons.get(which).getWeights();
+        System.arraycopy(tmpInputSet, 0, tmpWeights, 0, tmpInputSet.length);
+        neurons.get(which).normalizeWeights();
     }
 
     void adjustWeights (int won[] ,double bigcorr[],double correc[][])
     {
         double corr, tmpWeight[], length, correcTmp[];
-
         bigcorr[0] = 0.0 ;
 
         for(int i=0; i<outputNeurons; i++){
@@ -244,19 +283,19 @@ public class KohonenNeuralNetwork {
             for(int j=0; j<inputNeurons; j++){
                 corr = learnRate * correcTmp[j];
                 tmpWeight[j] += corr;
-                length += Math.sqrt(corr*corr);
+                length += corr*corr;
             }
+
+            neurons.get(i).setWeights(tmpWeight);
 
             if(length > bigcorr[0])
                 bigcorr[0] = length;
 
             bigcorr[0] = Math.sqrt(bigcorr[0])/learnRate;
         }
-
     }
 
     public void calcError(int won[], double bigger[], double correc[][]){
-
         double tmpWeight[], norm[] = new double[1];
         double inputSetTmp[];
         double correcTmp[];
@@ -269,13 +308,12 @@ public class KohonenNeuralNetwork {
                 correc[y][x]=0;
             }
         }
-
         for ( int i=0;i<won.length;i++ )
             won[i]=0;
 
         bigger[0] = -1.E30 ;
 
-        for(charSet = 0; charSet<characterSet.getTrainingSetCount()-1; charSet++){
+        for(charSet = 0; charSet<characterSet.getTrainingSetCount(); charSet++){
             inputSetTmp = characterSet.getInputSet(charSet);
             win = winner(inputSetTmp, norm);
             won[win]++;
@@ -286,7 +324,7 @@ public class KohonenNeuralNetwork {
 
             for(int i=0; i<inputNeurons; i++){
                 diff = inputSetTmp[i] * norm[0] - tmpWeight[i];
-                length += Math.sqrt(diff*diff);
+                length += diff*diff;
                 correcTmp[i] += diff;
 
                 if(length > bigger[0])
@@ -295,34 +333,43 @@ public class KohonenNeuralNetwork {
         }
 
         bigger[0] = Math.sqrt(bigger[0]);
-
     }
 
     public int winner(double input[], double norm[]){
         int i=0, win=0;
-        double biggest, output[], tmpWeight[];
+        double maxOutput, tmpOutput = 0;
 
         normalizeInput(input, norm);
 
-        biggest = -1.E30;
-        double tmpOutput = 0;
+        maxOutput = -1.E30;
 
         for (Neuron n: neurons) {
-            tmpOutput = n.getOutput(input, norm);
-            if(tmpOutput > biggest){
-                biggest = tmpOutput;
+            tmpOutput = n.calcOutput(input, norm);
+            if(tmpOutput > maxOutput){
+                maxOutput = tmpOutput;
                 win = i;
             }
             i++;
         }
 
         return win;
-
     }
 
     public void setGroupsIds(int id) {
         if(!groups.contains(id)){
             groups.add(id);
+        }
+    }
+
+    public void setOutputWeights(){
+        for(int i=0; i<outputNeurons; i++){
+            outputWeights[i] = neurons.get(i).getWeights();
+        }
+    }
+
+    public void setOutputWeightsToNeurons(){
+        for(int i=0; i<outputNeurons; i++){
+            neurons.get(i).setWeights(outputWeights[i]);
         }
     }
 

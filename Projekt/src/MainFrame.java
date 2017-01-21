@@ -104,7 +104,6 @@ public class MainFrame extends JFrame implements Runnable {
     JList letters = new JList();
     JButton del = new JButton();
     JButton train = new JButton();
-    JLabel JLabel3 = new JLabel();
 
     //}}
     //{{DECLARE_MENUS

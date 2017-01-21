@@ -29,9 +29,7 @@ public class CharacterSet {
         return trainingSetCount;
     }
 
-    void setInput(int set,int index,double value)
-            throws RuntimeException
-    {
+    void setInput(int set,int index,double value){
         input[set][index] = value;
     }
 
